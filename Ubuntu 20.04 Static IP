@@ -1,3 +1,35 @@
-$ cat /etc/netplan/network-manager.yml
+# Netplan klasöründeki yaml dosyasının yerinde olduğunu ve içeriğini kontrol et 
 
-$ 
+$ cat /etc/netplan/network-manager.yaml
+
+# Çıktı şu şekilde olacak
+# network:
+    ethernets:
+        enp0s3:
+            addresses: []
+            dhcp4: true
+    version: 2
+
+# Herhangi bir aksaklık olması durumu için yaml dosyasının kopyasını oluştur
+$ cp /etc/netplan/network-manager.yaml /etc/netplan/network-manager-bck.yaml
+
+# Dosya içeriğini düzenlemek için nano editörünü kullan
+$ nano network-manager.yaml
+
+# network:
+    version: 2
+    ethernets:
+      enp0s3:
+        dhcp4: no
+        addresses: [1192.168.xx.xx/24]
+        gateway4: 192.168.1.1
+        nameservers:
+            addresses: [8.8.8.8,8.8.4.4]
+
+$ netplan try
+
+# Ayarları uygula
+$ netplan apply
+
+#sistemi yeniden başlat
+$ reboot now
